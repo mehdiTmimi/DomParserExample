@@ -1,5 +1,7 @@
 import java.io.File;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -13,9 +15,13 @@ import org.w3c.dom.NodeList;
 public class Main {
 
 	public Main() {
-		readExample();
+		List<Student> students= readExample();
+		for (Student student : students) {
+			System.out.println(student);
+		}
 	}
-	private void readExample() {
+	private List<Student> readExample() {
+		List<Student> students=new Vector<>();
 		try {
 			File file = new File("data.xml");  
 			
@@ -35,8 +41,21 @@ public class Main {
 				Node node= childs.item(i);
 				if(node.getNodeType()==1)
 				{
+					Student student=new Student();
+					students.add(student);
+					
 					Element element=(Element) node;
-					System.out.println(element.getTagName());
+					Element nameElement=(Element) element.getElementsByTagName("name").item(0);
+					student.setName(nameElement.getTextContent());
+					
+					Element subjectElement=(Element) element.getElementsByTagName("subject").item(0);
+					student.setSubject(subjectElement.getTextContent());
+					
+					Element genderElement=(Element) element.getElementsByTagName("gender").item(0);
+					student.setGender(genderElement.getTextContent());
+					
+					Element ageElement=(Element) element.getElementsByTagName("age").item(0);
+					student.setAge(Integer.parseInt(ageElement.getTextContent()));
 				}
 			
 			}
@@ -45,6 +64,7 @@ public class Main {
 			{
 				e.printStackTrace();
 			}
+		return students;
 	}
 	public static void main(String[] args) {
 
