@@ -1,10 +1,16 @@
 import java.io.File;
+import java.io.FileWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
@@ -19,6 +25,51 @@ public class Main {
 		for (Student student : students) {
 			System.out.println(student);
 		}
+		//TODO
+		saveExample(students,"data2.xml");
+	}
+	private void saveExample(List<Student> students, String path) {
+
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.newDocument();
+			Element racine = document.createElement("students");
+			document.appendChild(racine);
+			for (Student student : students) {
+				Element elementS = document.createElement("student");
+				racine.appendChild(elementS);
+				
+				Element elementName=document.createElement("name");
+				Element elementSubject=document.createElement("subject");
+				Element elementGender=document.createElement("gender");
+				Element elementAge=document.createElement("age");
+				
+				elementS.appendChild(elementName);
+				elementS.appendChild(elementSubject);
+				elementS.appendChild(elementGender);
+				elementS.appendChild(elementAge);
+				
+				elementName.setTextContent(student.getName());
+				elementSubject.setTextContent(student.getSubject());
+				elementGender.setTextContent(student.getGender());
+				elementAge.setTextContent(student.getAge()+"");
+			}
+			
+			// ecriture dans un fichier
+			
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+			DOMSource source = new DOMSource(document);
+			StreamResult result = new StreamResult(new File(path));
+			transformer.transform(source, result);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	private List<Student> readExample() {
 		List<Student> students=new Vector<>();

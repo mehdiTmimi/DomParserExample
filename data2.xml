@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<students>
+    <student>
+        <name>Rick Grimes</name>
+        <subject>Maths</subject>
+        <gender>Male</gender>
+        <age>35</age>
+    </student>
+    <student>
+        <name>Daryl Dixon </name>
+        <subject>Science</subject>
+        <gender>Male</gender>
+        <age>33</age>
+    </student>
+    <student>
+        <name>Maggie</name>
+        <subject>Arts</subject>
+        <gender>Female</gender>
+        <age>36</age>
+    </student>
+</students>
